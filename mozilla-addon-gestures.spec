@@ -20,7 +20,7 @@ Requires(post,postun):	mozilla >= 1.7.3-3
 Requires(post,postun):	textutils
 Requires:	mozilla >= 1.0-7
 BuildArch:	noarch
-BuildRoot:	%{tmpdir}/%{_realname}-%{version}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_chromedir	%{_datadir}/mozilla/chrome
 
@@ -31,7 +31,7 @@ Gestures support for Mozilla.
 Obs³uga gestów dla Mozilli.
 
 %prep
-%setup -q -c %{name}-%{version}
+%setup -q -c
 %patch0 -p1
 
 %install
