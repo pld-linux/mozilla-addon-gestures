@@ -1,3 +1,2 @@
 content,install,url,resource:/chrome/mozgest/content/
 locale,install,url,resource:/chrome/mozgest/locale/en-US/mozgest/
-
