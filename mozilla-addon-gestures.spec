@@ -35,7 +35,7 @@ Obs³uga gestów dla Mozilli.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_chromedir}
 
-cd mozgest
+cd %{_realname}
 zip -r -9 -m ../%{_realname}.jar ./
 cd -
 install %{SOURCE1} $RPM_BUILD_ROOT%{_chromedir}
