@@ -4,7 +4,7 @@ Name:		mozilla-addon-gestures
 %define		_realname	mozgest
 Version:	0.3.4
 %define	fver	%(echo %{version} | tr . _)
-Release:	3
+Release:	4
 License:	GPL
 Group:		X11/Applications/Networking
 Source0:	http://optimoz.mozdev.org/gestures/%{_realname}_%{fver}.xpi
@@ -21,7 +21,7 @@ Requires:	mozilla >= 1.0-7
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{_realname}-%{version}-root-%(id -u -n)
 
-%define         _chromedir      %{_libdir}/mozilla/chrome
+%define         _chromedir      %{_datadir}/mozilla/chrome
 
 %description
 Gestures support for Mozilla.
