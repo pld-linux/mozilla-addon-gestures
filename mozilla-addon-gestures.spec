@@ -8,6 +8,7 @@ Release:	3
 License:	GPL
 Group:		X11/Applications/Networking
 Source0:	http://optimoz.mozdev.org/gestures/%{_realname}_%{fver}.xpi
+# Source0-md5:	2754cac576afa78797c858104fe6cd40
 Source1:	%{_realname}-installed-chrome.txt
 Source3:	http://surfmind.com/mozgest/optimoz_poster.jpg
 # Source3-md5:	a3ae558152b3de63db94b8a7ff740948
