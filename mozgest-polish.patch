@@ -1,0 +1,555 @@
+diff -NuwbBr mozgestlin/content/gestimp.js mozgest/content/gestimp.js
+--- mozgestlin/content/gestimp.js	Wed Jun 19 00:00:00 2002
++++ mozgest/mozgest/content/gestimp.js	Sat Apr 13 00:00:00 2002
+@@ -46,51 +46,64 @@
+ 
+ function initGestureTable() {
+   // *** navigational gestures (& related) ***
+-  addGesture("L", "g.BrowserBack", "BrowserBack();");
+-  addGesture("R", "g.BrowserForward", "BrowserForward();");
+-  addGesture("UD", "g.BrowserReload", "BrowserReload();");
+-  addGesture("UDU", "g.BrowserReloadSkipCache", "BrowserReloadSkipCache();");
+-  addGesture("LU", "g.BrowserStop", "BrowserStop();");
+-  addGesture("DURD", "g.BrowserHome", "BrowserHome();");
+-  addGesture("RDU", "g.scrollDown", "window._content.scrollBy(0,200);");
+-  addGesture("RUD", "g.scrollUp", "window._content.scrollBy(0,-200);");
+-  addGesture("D", "g.openNewDocument", "openNewDocument();");
+-  addGesture("DU", "g.duplicateWindow", "duplicateWindow()");
+-  addGesture("ULU", "g.upDir", "upDir();");
++  addGesture("L", bundle.getString("g.BrowserBack"), "BrowserBack();");
++  addGesture("R", bundle.getString("g.BrowserForward"), "BrowserForward();");
++  addGesture("UD", bundle.getString("g.BrowserReload"), "BrowserReload();");
++  addGesture("UDU", bundle.getString("g.BrowserReloadSkipCache"), "BrowserReloadSkipCache();");
++  addGesture("DURD", bundle.getString("g.BrowserHome"), "BrowserHome();");
++  addGesture("RDU", bundle.getString("g.scrollDown"), "window._content.scrollBy(0,200);");
++  addGesture("RU", bundle.getString("g.scrollUp"), "window._content.scrollBy(0,-200);");
++  addGesture("D", bundle.getString("g.openNewDocument"), "openNewDocument();");
++  addGesture("DU", bundle.getString("g.duplicateWindow"), "duplicateWindow()");
++  addGesture("ULU", bundle.getString("g.upDir"), "upDir();");
+   // *** tab gestures ***
+-  addGesture("U", "g.BrowserOpenTab", "if(globalOnLink) linkInTab(globalOnLink[0]); else BrowserOpenTab();");
+-  addGesture("DUD", "g.duplicateTab", "linkInTab(window._content.document.location);");
+-  addGesture("UR", "g.nextTab", "getBrowser().mTabBox._tabs.advanceSelectedTab(+1);");
+-  addGesture("UL", "g.previousTab", "getBrowser().mTabBox._tabs.advanceSelectedTab(-1);");
++  addGesture("DULR", bundle.getString("g.BrowserOpenTab"), "BrowserOpenTab();"); //Contributed by Exotrip
++  addGesture("DUD", bundle.getString("g.duplicateTab"), "linkInTab(window._content.document.location);");
++  addGesture("DUR", bundle.getString("g.nextTab"), "nextTab();");
++  addGesture("DUL", bundle.getString("g.previousTab"), "previousTab();");
+   // *** window manipulation (minimize etc.)
+-  addGesture("RU", "g.restMaxWin", "restMaxWin();");
+-  addGesture("DL", "g.minWin", "minWin();");
+-  addGesture("RLR", "g.closeDoc", "BrowserCloseTabOrWindow();");
+-  addGesture("DR", "g.closeDoc", "BrowserCloseTabOrWindow();");
++  addGesture("UR", bundle.getString("g.restMaxWin"), "restMaxWin();");
++  addGesture("DL", bundle.getString("g.minWin"), "minWin();");
++  addGesture("RLR", bundle.getString("g.closeDoc"), "closeDoc();");
++  addGesture("DR", bundle.getString("g.closeDoc"), "closeDoc();");
+   // *** misc *** 
+-  addGesture("URD", "g.viewFrameSource", "BrowserViewSourceOfDocument(globalSrcEvent.target.ownerDocument);");
+-  addGesture("LDRDL", "g.viewFrameSource", "BrowserViewSourceOfDocument(globalSrcEvent.target.ownerDocument);"); //Squarish "S"
+-  addGesture("LDR", "g.viewSiteCookies", "viewSiteCookies();");
+-  addGesture("URDURD", "g.metaInfo", "metaInfo();");
+-  addGesture("RLDUR", "g.explodeBackground", "explodeBackground();");
+-  addGesture("DRDLU", "g.addBookmark", "addBookmarkAs();");
++  addGesture("URD", bundle.getString("g.viewFrameSource"), "viewFrameSource();");
++  addGesture("LDRDL", bundle.getString("g.viewFrameSource"), "viewFrameSource();"); //Squarish "S"
++  addGesture("LDR", bundle.getString("g.viewSiteCookies"), "viewSiteCookies();");
++  addGesture("URDURD", bundle.getString("g.metaInfo"), "metaInfo();");
++  addGesture("RLDUR", bundle.getString("g.explodeBackground"), "explodeBackground();");
++  addGesture("DRDLU", bundle.getString("g.addBookmark"), "addBookmark();");
+   // *** link drag over gestures ***
+-  addGesture("RUDR", "g.doubleStackWin", "doubleStackWin();");
++  addGesture("UL", bundle.getString("g.doubleStackWin"), "doubleStackWin();");
++  addGesture("U", bundle.getString("g.linkInTab"), "if(globalOnLink) linkInTab(globalOnLink[0]);");
+   // Diagonals stuff
+-  addGesture("3", "g.doubleImageSize", "setImageSize(2);");
+-  addGesture("7", "g.halveImageSize", "setImageSize(.5);");
+-  addGesture("1", "g.hideImage", "setImageSize(0);");
+-  addGesture("39", "g.w3cValidate", "w3cValidate();");
++  addGesture("3", bundle.getString("g.doubleImageSize"), "doubleImageSize();");
++  addGesture("7", bundle.getString("g.halveImageSize"), "halveImageSize();");
++  addGesture("1", bundle.getString("g.hideImage"), "hideImage();");
++  addGesture("39", bundle.getString("g.w3cValidate"), "w3cValidate();");
+   // globalOnLink stuff
+-  addGesture("+RU", "g.linksInWindows", "linksInWindows();");
+-  addGesture("+RUL", "g.linksInTabs", "linksInTabs();");
++  addGesture("+RU", bundle.getString("g.linksInWindows"), "linksInWindows();");
++  addGesture("+RUL", bundle.getString("g.linksInTabs"), "linksInTabs();");
+ }
+ 
+-function setImageSize(aSize)
+-{
++function doubleImageSize(){
+   if(globalOnImage) {
+-    globalOnImage.width = globalOnImage.width * aSize;
+-    globalOnImage.height = globalOnImage.height * aSize;
++    globalOnImage.width = globalOnImage.width * 2;
++    globalOnImage.height = globalOnImage.height * 2;
++  }
++}
++
++function halveImageSize(){
++  if(globalOnImage) {
++    globalOnImage.width = globalOnImage.width * .5;
++    globalOnImage.height = globalOnImage.height * .5;
++  }
++}
++
++function hideImage(){
++  if(globalOnImage) {
++    globalOnImage.width = 0;
++    globalOnImage.height = 0;
+   }
+ }
+ 
+@@ -146,6 +159,44 @@
+     window._content.document.location.href = aUrl;
+ }
+ 
++function nextTab(){ //Contributed by Scurrie
++  var tab, curTab, curTabNum, nextTab, l, i;
++  if (getBrowser().mTabContainer.childNodes.length > 1){
++    l = getBrowser().mTabContainer.childNodes.length;
++    curTab = getBrowser().selectedTab;
++    for (i = 0; i < l; i++){
++      tab = getBrowser().mTabContainer.childNodes[i];
++      if (tab == curTab) {curTabNum = i;}
++    }
++    if (curTabNum == getBrowser().mTabContainer.childNodes.length-1){
++      nextTab = getBrowser().mTabContainer.childNodes[0];
++    }
++    else {
++      nextTab = getBrowser().mTabContainer.childNodes[curTabNum+1]; 
++    }
++    getBrowser().selectedTab = nextTab;
++  }
++}
++
++function previousTab(){ //Contributed by Scurrie
++  var tab, curTab, curTabNum, nextTab, l, i;
++  if (getBrowser().mTabContainer.childNodes.length > 1){
++    l = getBrowser().mTabContainer.childNodes.length;
++    curTab = getBrowser().selectedTab;
++    for (i = 0; i < l; i++){
++      tab = getBrowser().mTabContainer.childNodes[i];
++      if (tab == curTab) {curTabNum = i;}
++    }
++    if (curTabNum == 0){
++      curTabNum = getBrowser().mTabContainer.childNodes.length -1;
++      nextTab = getBrowser().mTabContainer.childNodes[curTabNum];
++    }
++    else {
++      nextTab = getBrowser().mTabContainer.childNodes[curTabNum-1];}
++      getBrowser().selectedTab = nextTab;
++    }
++}
++
+ function restMaxWin(){
+   if(window.maximize != 'undefined') {
+    if (window.windowState == STATE_MAXIMIZED)
+@@ -160,6 +211,12 @@
+   }
+ }
+ 
++function closeDoc(){
++  if (getBrowser().mTabContainer.childNodes.length > 1)
++    getBrowser().removeCurrentTab();
++  else window.setTimeout("window.close()", 10); 
++}
++
+ function viewSiteCookies(){ //Contributed by Squarefree.com
+   if (window._content.document.cookie)
+     alert(bundle.getString("cookies") + "\n\n"
+@@ -185,6 +242,14 @@
+   else alert(bundle.getString("noMeta"));
+ }
+ 
++function addBookmark(){
++  openDialog("chrome://communicator/content/bookmarks/addBookmark.xul", "",
++             "centerscreen,chrome,dialog=yes,dependent,resizable=yes",
++             window._content.document.title,
++             window._content.document.location,
++             "/", null, "");
++}
++
+ function explodeBackground(){
+   myBod = window._content.document.body;
+     myBod.background='http://www.surfmind.com/images/explode.gif';
+@@ -206,3 +271,16 @@
+ function w3cValidate() {
+ window._content.document.location='http://validator.w3.org/check?uri='+window._content.document.location;
+ }
+\ No newline at end of file
++
++function viewFrameSource() {
++  try {
++    BrowserViewSourceOfDocument(globalSrcEvent.target.ownerDocument);
++  }
++  catch (ex) {
++  window.openDialog("chrome://navigator/content/viewSource.xul",
++                    "_blank",
++                    "scrollbars,resizable,chrome,dialog=no",
++                    globalSrcEvent.target.ownerDocument.location.href,
++                    "charset=" + globalSrcEvent.target.ownerDocument.characterSet);
++  }
++}
+\ No newline at end of file
+diff -NuwbBr mozgestlin/content/gestures.js mozgest/content/gestures.js
+--- mozgestlin/content/gestures.js	Wed Jun 19 00:00:00 2002
++++ mozgest/mozgest/content/gestures.js	Mon Apr 15 00:00:00 2002
+@@ -126,5 +126,5 @@
+ }
+ 
+ function addGesture(gestCode, descString, evalCode){
+-  gesturesTable[gestCode] = new Array(bundle.getString(descString), evalCode);
++  gesturesTable[gestCode]=new Array(descString, evalCode);
+ }
+diff -NuwbBr mozgestlin/content/mozgestOverlay.js mozgest/content/mozgestOverlay.js
+--- mozgestlin/content/mozgestOverlay.js	Wed Jun  5 00:00:00 2002
++++ mozgest/mozgest/content/mozgestOverlay.js	Thu Jun  6 00:00:00 2002
+@@ -99,13 +99,14 @@
+ function mozgestDisableContextMenu(aEvent) {
+   if (disableContextMenu) {
+     aEvent.preventDefault();
++    aEvent.stopPropagation();
+   }
+   disableContextMenu = false;
+ }
+ 
+ function mozgestInit() { // load preferences into JS variables, or restore default prefs if none are found
+   dump("MozGest: init\n");
+-  window.removeEventListener("load", mozgestInit, true);
++  window.removeEventListener("load", mozgestInit, false);
+ 
+   // read prefs or set Defaults on the first run
+   try {
+@@ -117,7 +118,7 @@
+     mgPref.setBoolPref("modifier.ctrl", false);
+     mgPref.setBoolPref("modifier.alt", false);
+     mgPref.setBoolPref("modifier.shift", false);
+-    mgPref.setIntPref("mousebutton", 0);
++    mgPref.setIntPref("mousebutton", 2);
+     mgPref.setIntPref("grid", 15);
+     mgPref.setIntPref("delay", 500);
+     mozgestReadPref();
+@@ -244,11 +245,9 @@
+          internaly, so we can not stop them from DOM. */
+         e.preventDefault();
+         e.stopPropagation();
+-  	
+-        // Disable context menu but only if the right mouse button
+-  	    // is configured as the trigger
+-        if(mgPref.getIntPref("mousebutton") == 2) disableContextMenu = true;
+-        
++  		  if(mgPref.getIntPref("mousebutton") == 2) {
++          disableContextMenu = true;
++ 		    }
+         fireGesture(lastgesture);
+       }
+       else window.status = bundle.getString("g.aborted");
+diff -NuwbBr mozgestlin/content/mozgestOverlay.xul mozgest/content/mozgestOverlay.xul
+--- mozgestlin/content/mozgestOverlay.xul	Fri Apr 12 00:00:00 2002
++++ mozgest/mozgest/content/mozgestOverlay.xul	Fri Apr 19 00:00:00 2002
+@@ -50,7 +50,6 @@
+   <script type="application/x-javascript">
+     window.addEventListener("load", mozgestInit, true);
+     getBrowser().addEventListener("mousedown", mozgestIsInContent, true);
+-//  window.addEventListener("unload", removePrefObserver, true);  
+   </script>
+ 
+   <stringbundleset id="stringbundleset">  
+diff -NuwbBr mozgestlin/content/pref/pomoc.html mozgest/content/pref/pomoc.html
+--- mozgestlin/content/pref/pomoc.html	Thu Jan  1 01:00:00 1970
++++ mozgest/mozgest/content/pref/pomoc.html	Wed Apr 10 00:00:00 2002
+@@ -0,0 +1,164 @@
++<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
++<html>
++<head>
++<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
++</head>
++<body>
++<table cellspacing=0 cellpadding=4 style="border: 1px solid #08b; border-left: 2px solid #08b;">
++<tbody>
++<tr>
++<th>Funkcja</th>
++<th>Gest</th>
++</tr>
++<tr style="background-color: rgb(0,136,187); color: rgb(255,255,255); font-family: Arial,sans-serif; font-weight: bold; letter-spacing: 0.5em;">
++<td colspan="2">Nawigacja</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Do przodu</td>
++<td>W prawo</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Wstecz</td>
++<td>W lewo</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Odśwież</td>
++<td>W górę - W dół</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Odśwież (pomiń pamięć podręczną)</td>
++<td>W górę - W dół - W górę</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Strona domowa</td>
++<td>W dół - W górę - W prawo - W dół (narysuj kwadratową, małą literę h)</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Nowy dokument</td>
++<td>W dół</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Powiel okno</td>
++<td>W dół - W górę</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Minimalizuj okno</td>
++<td>W dół - W lewo</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Przywróć lub maksymalizuj okno</td>
++<td>W górę - W prawo</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Zamknij dokument (okno lub panel)</td>
++<td>W prawo - W lewo - W prawo <i>lub</i> W dół - W prawo</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Katalog nadrzędny</td>
++<td>W górę - W lewo - W górę</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Przewiń w dół o 200px</td>
++<td>W prawo - W dół - W górę</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Przewiń w górę o 200px</td>
++<td>W prawo - W górę</td>
++</tr>
++<tr style="border: 0px; font-size: 3px;">
++<td colspan="2"></td>
++</tr>
++<tr style="background-color: rgb(0,136,187); color: rgb(255,255,255); font-family: Arial,sans-serif; font-weight: bold; letter-spacing: 0.5em;">
++<td colspan="2">Przeglądanie przy użyciu paneli</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Powiel panel</td>
++<td>W dół - W górę - W dół</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Następny panel</td>
++<td>W dół - W górę - W prawo</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Poprzedni panel</td>
++<td>W dół - W górę - W lewo</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Nowy panel</td>
++<td>W dół - W górę - W lewo - W prawo (narysuj kwadratową, dużą literę T)</td>
++</tr>
++<tr class="border: 0px; font-size: 3px; background-color: #f0f0f3;">
++<td colspan="2"></td>
++</tr>
++<tr style="background-color: rgb(0,136,187); color: rgb(255,255,255); font-family: Arial,sans-serif; font-weight: bold; letter-spacing: 0.5em;">
++<td colspan="2">Funkcje wywołane przeciąganiem kursora nad obrazkiem&nbsp;</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Podwójnie powiększ obrazek</td>
++<td>Przeciągnij kursor, zaczynając nad obrazkiem, do dółu w prawo</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Pomniejsz o połowę obrazek</td>
++<td>Przeciągnij kursor, zaczynając nad obrazkiem, do góry w lewo</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Ukryj obrazek</td>
++<td>Przeciągnij kursor, zaczynając nad obrazkiem, do dółu w lewo</td>
++</tr>
++<tr class="border: 0px; font-size: 3px; background-color: #f0f0f3;">
++<td colspan="2"></td>
++</tr>
++<tr style="background-color: rgb(0,136,187); color: rgb(255,255,255); font-family: Arial,sans-serif; font-weight: bold; letter-spacing: 0.5em;">
++<td colspan="2">Funkcje wywołane przeciąganiem kursora nad odnośnikiem&nbsp;</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Otwórz odnośnik w nowym oknie</td>
++<td>Przeciągnij kursor, zaczynając nad odnośnikiem, w dół</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Otwórz odnośnik w nowym panelu</td>
++<td>Przeciągnij kursor, zaczynając nad odnośnikiem, w górę</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Sąsiadująco w poziomie okno bieżącego i nowego odnośnika</td>
++<td>Przeciągnij kursor, zaczynając nad odnośnikiem, w górę a następnie
++w lewo</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Otwórz wszystkie odnośniki w nowych oknach</td>
++<td>Dowolny niezdefiniowany gest nad odnośnikami, który jest zakończony
++poprzez kombinację: W prawo - W górę</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Otwórz wszystkie odnośniki w nowych panelach</td>
++<td>Dowolny niezdefiniowany gest nad odnośnikami, który jest zakończony
++poprzez kombinację: W prawo - W górę - W lewo</td>
++</tr>
++<tr style="border: 0px; font-size: 3px;">
++<td colspan="2"></td>
++</tr>
++<tr style="background-color: rgb(0,136,187); color: rgb(255,255,255); font-family: Arial,sans-serif; font-weight: bold; letter-spacing: 0.5em;">
++<td colspan="2">Inne operacje</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Pokaż źródło</td>
++<td>W lewo - W dół - W prawo - W dół - W lewo (narysuj kwadratową
++literę S)
++<br>Skrócona wersja: W górę - W prawo - W dół</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Pokaż ciasteczka dla bieżącej domeny</td>
++<td>W lewo - W dół - W prawo (narysuj kwadratową literę C)</td>
++</tr>
++<tr style="background-color: rgb(255,255,255);">
++<td>Pokaż informację Meta dla bieżącej strony</td>
++<td>W górę - W prawo - W dół - W górę - W prawo - W dół (narysuj kwadratową, dużą literę M)</td>
++</tr>
++<tr style="background-color: rgb(240,240,243);">
++<td>Dodaj zakładkę</td>
++<td>W dół - W prawo - W dół - W lewo - W górę (narysuj kwadratową, małą literę b)</td>
++</tr>
++</tbody>
++</table>
++</body>
++</html>
+diff -NuwbBr mozgestlin/content/pref/pref-mozgest.xul mozgest/content/pref/pref-mozgest.xul
+--- mozgestlin/content/pref/pref-mozgest.xul	Sat Apr 13 00:00:00 2002
++++ mozgest/mozgest/content/pref/pref-mozgest.xul	Fri Apr 19 00:00:00 2002
+@@ -141,6 +141,16 @@
+     </hbox>
+   </groupbox>
+ 
++  <spring flex="1"/>\
++
++  <groupbox orient="horizontal" align="center" width="100%">
++    <hbox flex="1" align="center">
++        <button align="center" flex="1" label="Pomoc"
++          onclick="showWebPage('chrome://mozgest/content/pref/pomoc.html');" 
++        />
++    </hbox>
++  </groupbox>
++  
+   <spring flex="1"/>
+ 
+   <groupbox orient="horizontal" align="center" width="100%">
+diff -NuwbBr mozgestlin/locale/pl-PL/mozgest/contents.rdf mozgest/locale/pl-PL/mozgest/contents.rdf
+--- mozgestlin/locale/pl-PL/mozgest/contents.rdf	Thu Jan  1 01:00:00 1970
++++ mozgest/mozgest/locale/pl-PL/mozgest/contents.rdf	Wed May 15 00:00:00 2002
+@@ -0,0 +1,26 @@
++<?xml version="1.0"?>
++<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
++         xmlns:chrome="http://www.mozilla.org/rdf/chrome#">
++
++  <!-- list all the packages being supplied by this jar -->
++  <RDF:Seq about="urn:mozilla:locale:root">
++    <RDF:li resource="urn:mozilla:locale:pl-PL"/>
++  </RDF:Seq>
++
++  <!-- locale information -->
++  <RDF:Description about="urn:mozilla:locale:pl-PL"
++        chrome:displayName="Polski (PL)"
++        chrome:author="optimoz.mozdev.org"
++        chrome:name="pl-PL">
++    <chrome:packages>
++      <RDF:Seq about="urn:mozilla:locale:pl-PL:packages">
++        <RDF:li resource="urn:mozilla:locale:pl-PL:mozgest"/>
++      </RDF:Seq>
++    </chrome:packages>
++  </RDF:Description>
++
++  <!-- Version Information.  State that we work only with major version of this
++       package. -->
++  <RDF:Description about="urn:mozilla:locale:pl-PL:mozgest"
++	chrome:localeVersion="0.3.3"/>
++</RDF:RDF>
+diff -NuwbBr mozgestlin/locale/pl-PL/mozgest/mozgest.dtd mozgest/locale/pl-PL/mozgest/mozgest.dtd
+--- mozgestlin/locale/pl-PL/mozgest/mozgest.dtd	Thu Jan  1 01:00:00 1970
++++ mozgest/mozgest/locale/pl-PL/mozgest/mozgest.dtd	Mon Apr 15 00:00:00 2002
+@@ -0,0 +1,23 @@
++
++<!ENTITY mozgest.label		"Gesty">
++
++<!ENTITY recognition.label		"Włącz obsługę gestów w:">
++<!ENTITY recognition.navigator		"Nawigator">
++<!ENTITY recognition.mail		"Kurier Poczty">
++<!ENTITY recognition.chatzilla		"Chatzilla">
++<!ENTITY recognition.addressbook	"Książka adresowa">
++
++<!ENTITY condition.label	"Wykonaj gest używając ">
++<!ENTITY condition.LMB		"lewego przycisku myszy">
++<!ENTITY condition.MMB		"środkowego przycisku myszy">
++<!ENTITY condition.RMB		"prawego przycisku myszy">
++<!ENTITY condition.and		"oraz klawisza">
++
++<!ENTITY additional.label	"Dodatkowe ustawienia">
++<!ENTITY additional.gridsize	"Minimalny rozmiar gestu: ">
++<!ENTITY additional.units	" (pikseli)">
++<!ENTITY additional.abort	"Anuluj gest po upływie ">
++<!ENTITY additional.delay	" milisekund od ostatniego ruchu">
++
++<!ENTITY provider.value		"Gesty zostały udostępnione dzięki Optimoz">
++<!ENTITY uninstall.label	"Odinstaluj">
+diff -NuwbBr mozgestlin/locale/pl-PL/mozgest/mozgest.properties mozgest/locale/pl-PL/mozgest/mozgest.properties
+--- mozgestlin/locale/pl-PL/mozgest/mozgest.properties	Thu Jan  1 01:00:00 1970
++++ mozgest/mozgest/locale/pl-PL/mozgest/mozgest.properties	Tue Apr 16 00:00:00 2002
+@@ -0,0 +1,46 @@
++cookies=Ciasteczka przechowywane przez t\u0105 witryn\u0119 lub domen\u0119:
++noCookies=Brak ustawionych ciasteczek dla tej witryny lub domeny.
++meta=Tagi Meta: 
++noMeta=Dokument nie zawiera tag\u00F3w Meta.
++
++# abbreviations for user feedback, while making gesture
++abbreviation.right=P
++abbreviation.left=L
++abbreviation.up=G
++abbreviation.down=D
++
++# gesture descriptions
++g.gesture=Gest:
++g.aborted=Gest zosta\u0142 anulowany
++g.unknown=Nieznany gest:
++g.BrowserBack=Wstecz
++g.BrowserForward=Do przodu
++g.BrowserReload=Od\u015Bwie\u017C
++g.BrowserReloadSkipCache=Od\u015Bwie\u017C (pomi\u0144 pami\u0119\u0107 podr\u0119czn\u0105)
++g.BrowserHome=Strona domowa
++g.scrollDown=Przewi\u0144 w d\u00F3\u0142
++g.scrollUp=Przewi\u0144 w g\u00F3r\u0119
++g.openNewDocument=Nowy dokument
++g.duplicateWindow=Powiel okno
++g.upDir=Katalog nadrz\u0119dny
++g.BrowserOpenTab=Nowy panel
++g.duplicateTab=Powiel panel
++g.nextTab=Nast\u0119pny panel
++g.previousTab=Poprzedni panel
++g.restMaxWin=Przywr\u00F3\u0107 lub maksymalizuj okno
++g.minWin=Minimalizuj okno
++g.closeDoc=Zamknij dokument (okno lub panel)
++g.viewFrameSource=Poka\u017C \u017Ar\u00F3d\u0142o
++g.viewSiteCookies=Poka\u017C ciasteczka dla bie\u017C\u0105cej domeny
++g.metaInfo=Poka\u017C informacj\u0119 Meta dla bie\u017C\u0105cej strony
++g.explodeBackground=Eksploduj\u0105ce t\u0142o
++g.addBookmark=Dodaj zak\u0142adk\u0119
++g.doubleStackWin=S\u0105siaduj\u0105co w poziomie okno bie\u017C\u0105cego i nowego odno\u015Bnika
++g.linkInTab=Otw\u00F3rz odno\u015Bnik w nowym panelu
++g.doubleImageSize=Podw\u00F3jnie powi\u0119ksz obrazek
++g.halveImageSize=Pomniejsz o po\u0142ow\u0119 obrazek
++g.hideImage=Ukryj obrazek
++g.w3cValidate=Sprawd\u017A ten dokument
++g.linksInWindows=Otw\u00F3rz wszystkie odno\u015Bniki w nowych oknach
++g.linksInTabs=Otw\u00F3rz wszystkie odno\u015Bniki w nowych panelach
++
