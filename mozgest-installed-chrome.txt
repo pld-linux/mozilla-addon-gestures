@@ -1,2 +1,3 @@
-content,install,url,resource:/chrome/mozgest/content/
-locale,install,url,resource:/chrome/mozgest/locale/en-US/mozgest/
+content,install,url,jar:resource:/chrome/mozgest.jar!/content/
+locale,install,url,jar:resource:/chrome/mozgest.jar!/locale/pl-PL/mozgest/
+locale,install,url,jar:resource:/chrome/mozgest.jar!/locale/en-US/mozgest/
