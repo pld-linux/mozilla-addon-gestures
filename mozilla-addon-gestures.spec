@@ -14,8 +14,9 @@ Patch0:		mozgest-polish.patch
 URL:		http://optimoz.mozdev.org/gestures/
 BuildRequires:	unzip
 BuildRequires:	zip
-BuildArch:	noarch
+Requires(post,postun):	textutils
 Requires:	mozilla >= 1.0-7
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{_realname}-%{version}-root-%(id -u -n)
 
 %define         _chromedir      %{_libdir}/mozilla/chrome
@@ -38,20 +39,22 @@ cd %{_realname}
 zip -r -9 -m ../%{_realname}.jar ./
 cd -
 install %{SOURCE1} $RPM_BUILD_ROOT%{_chromedir}
-install %{SOURCE3} $RPM_BUILD_ROOT
+install %{SOURCE3} .
 install %{_realname}.jar $RPM_BUILD_ROOT%{_chromedir}
-
-%post
-cat %{_chromedir}/*-installed-chrome.txt >%{_chromedir}/installed-chrome.txt
-
-%postun
-cat %{_chromedir}/*-installed-chrome.txt >%{_chromedir}/installed-chrome.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+umask 022
+cat %{_chromedir}/*-installed-chrome.txt >%{_chromedir}/installed-chrome.txt
+
+%postun
+umask 022
+cat %{_chromedir}/*-installed-chrome.txt >%{_chromedir}/installed-chrome.txt
+
 %files
 %defattr(644,root,root,755)
+%doc optimoz_poster.jpg
 %{_chromedir}/%{_realname}.jar
 %{_chromedir}/%{_realname}-installed-chrome.txt
-%doc $RPM_BUILD_ROOT/optimoz_poster.jpg
