@@ -1,5 +1,5 @@
 Summary:	Mouse Gestures
-Summary(pl):	Obs≥uga gestÛw
+Summary(pl.UTF-8):   Obs≈Çuga gest√≥w
 Name:		mozilla-addon-gestures
 %define		_realname	mozgest
 Version:	0.3.4
@@ -27,8 +27,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Gestures support for Mozilla.
 
-%description -l pl
-Obs≥uga gestÛw dla Mozilli.
+%description -l pl.UTF-8
+Obs≈Çuga gest√≥w dla Mozilli.
 
 %prep
 %setup -q -c
