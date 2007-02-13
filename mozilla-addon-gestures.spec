@@ -1,5 +1,5 @@
 Summary:	Mouse Gestures
-Summary(pl.UTF-8):   Obsługa gestów
+Summary(pl.UTF-8):	Obsługa gestów
 Name:		mozilla-addon-gestures
 %define		_realname	mozgest
 Version:	0.3.4
