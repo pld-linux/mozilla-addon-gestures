@@ -1,9 +1,9 @@
+%define		_realname	mozgest
+%define	fver	%(echo %{version} | tr . _)
 Summary:	Mouse Gestures
 Summary(pl.UTF-8):	Obsługa gestów
 Name:		mozilla-addon-gestures
-%define		_realname	mozgest
 Version:	0.3.4
-%define	fver	%(echo %{version} | tr . _)
 Release:	5
 License:	GPL
 Group:		X11/Applications/Networking
@@ -49,10 +49,13 @@ install %{_realname}.jar $RPM_BUILD_ROOT%{_chromedir}
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%{_sbindir}/mozilla-chrome+xpcom-generate
+if [ "$1" = 1 ]; then
+	%{_sbindir}/mozilla-chrome+xpcom-generate
+fi
 
 %postun
-%{_sbindir}/mozilla-chrome+xpcom-generate
+[ ! -x %{_sbindir}/mozilla-chrome+xpcom-generate ] || %{_sbindir}/mozilla-chrome+xpcom-generate
+
 
 %files
 %defattr(644,root,root,755)
