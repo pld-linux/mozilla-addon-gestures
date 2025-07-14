@@ -32,7 +32,7 @@ Obsługa gestów dla Mozilli.
 
 %prep
 %setup -q -c
-%patch0 -p1
+%patch -P0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
